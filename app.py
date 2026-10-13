@@ -19,7 +19,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 st.set_page_config(
     page_title="Citizen Grievance AI",
-    page_icon="📋",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -256,13 +255,6 @@ hr {
 .muted-copy {
     color: var(--muted);
     font-size: 0.93rem;
-}
-
-.footer-note {
-    color: #92909A;
-    font-size: 0.8rem;
-    text-align: center;
-    padding-top: 1.4rem;
 }
 
 /* EXPANDERS */
@@ -1062,15 +1054,6 @@ def page_header(title, subtitle=""):
         )
 
 
-def footer():
-    st.markdown(
-        '<div class="footer-note">'
-        'Citizen Grievance AI · Academic project prototype'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-
 def sort_by_priority(dataframe):
     """Sort complaints High, Medium, Low, then newest first."""
 
@@ -1102,9 +1085,7 @@ def sort_by_priority(dataframe):
 
 with st.sidebar:
 
-    st.markdown("## 📋 Citizen Grievance AI")
-
-    st.caption("Public complaint management")
+    st.markdown("## Citizen Grievance AI")
 
     st.divider()
 
@@ -1120,11 +1101,6 @@ with st.sidebar:
         label_visibility="collapsed",
         key="main_navigation"
     )
-
-    st.divider()
-
-    st.caption("AI & Machine Learning")
-    st.caption("Academic Project")
 
 
 # ============================================================
@@ -1154,13 +1130,7 @@ if page == "Home":
 
     st.markdown("""
     <div class="hero">
-        <div class="hero-tag">PUBLIC COMPLAINT MANAGEMENT</div>
         <h1>Make every complaint count.</h1>
-        <p>
-            Record public issues, organize complaints, identify possible
-            duplicate reports, and explore trends through a clear,
-            data-driven dashboard.
-        </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1178,7 +1148,6 @@ if page == "Home":
     with a:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-icon">🤖</div>
             <div class="feature-title">AI-Assisted Analysis</div>
             <div class="feature-copy">
                 Predict complaint categories using a trained model
@@ -1190,7 +1159,6 @@ if page == "Home":
     with b:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-icon">🔎</div>
             <div class="feature-title">Duplicate Detection</div>
             <div class="feature-copy">
                 Compare locations, categories, and text similarity
@@ -1202,7 +1170,6 @@ if page == "Home":
     with c:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-icon">📊</div>
             <div class="feature-title">Interactive Analytics</div>
             <div class="feature-copy">
                 Explore complaint priorities, categories, locations,
@@ -1243,12 +1210,6 @@ if page == "Home":
             hide_index=True
         )
 
-    st.caption(
-        "Demonstration records are marked [DEMO] in their descriptions."
-    )
-
-    footer()
-
 
 # ============================================================
 # 14. SUBMIT COMPLAINT PAGE
@@ -1256,10 +1217,7 @@ if page == "Home":
 
 elif page == "Submit Complaint":
 
-    page_header(
-        "Submit a Complaint",
-        "Enter the details of the public issue below."
-    )
+    page_header("Submit a Complaint")
 
     with st.form(
         "submit_complaint_form",
@@ -1373,19 +1331,6 @@ elif page == "Submit Complaint":
             r2.metric("Estimated Priority", priority)
             r3.metric("Sentiment", sentiment)
 
-            if model_used:
-
-                st.caption(
-                    "Category prediction used the trained model."
-                )
-
-            else:
-
-                st.caption(
-                    "The selected category was retained because a "
-                    "compatible trained model was unavailable."
-                )
-
             st.write(f"**Priority Explanation:** {reason}")
             st.write("**Current Status:** Pending")
 
@@ -1397,14 +1342,6 @@ elif page == "Submit Complaint":
                     use_container_width=True
                 )
 
-            st.info(
-                "This prototype stores reports locally. "
-                "It does not automatically send complaints "
-                "to a government department."
-            )
-
-    footer()
-
 
 # ============================================================
 # 15. ADMIN DASHBOARD
@@ -1412,10 +1349,7 @@ elif page == "Submit Complaint":
 
 elif page == "Admin Dashboard":
 
-    page_header(
-        "Admin Dashboard",
-        "Review complaint records, update statuses, and explore trends."
-    )
+    page_header("Admin Dashboard")
 
     df = get_complaints()
 
@@ -1573,11 +1507,6 @@ elif page == "Admin Dashboard":
         st.divider()
 
         st.markdown("## Priority-Wise Complaints")
-
-        st.caption(
-            "Complaints are sorted from High to Medium to Low priority. "
-            "Within each priority, newer complaints appear first."
-        )
 
         priority_sorted = sort_by_priority(filtered)
 
@@ -1893,8 +1822,6 @@ elif page == "Admin Dashboard":
             use_container_width=True
         )
 
-    footer()
-
 
 # ============================================================
 # 16. DUPLICATE COMPLAINTS PAGE
@@ -1902,16 +1829,7 @@ elif page == "Admin Dashboard":
 
 elif page == "Duplicate Complaints":
 
-    page_header(
-        "Complaint Summary",
-        "Understand total reports, repeated issues, and other complaints."
-    )
-
-    st.write(
-        "Complaints are compared using their location, category, "
-        "and description. Similar reports may be grouped together "
-        "for administrator review."
-    )
+    page_header("Complaint Summary")
 
     df = get_complaints()
 
@@ -1950,12 +1868,6 @@ elif page == "Duplicate Complaints":
         col3.metric(
             "Non-Duplicated Complaints",
             non_duplicate_count
-        )
-
-        st.caption(
-            "Repeated issues count every complaint in an identified "
-            "repeated group. Non-duplicated complaints are not currently "
-            "linked to another similar report."
         )
 
         st.divider()
@@ -2105,14 +2017,6 @@ elif page == "Duplicate Complaints":
                 key="download_non_duplicated_complaints"
             )
 
-        st.caption(
-            "These are potential matches, not confirmed duplicates. "
-            "The algorithm may miss repeated complaints or group "
-            "different complaints together. Human review is recommended."
-        )
-
-    footer()
-
 
 # ============================================================
 # 17. ABOUT AND CONTACT AUTHORITIES
@@ -2120,18 +2024,9 @@ elif page == "Duplicate Complaints":
 
 elif page == "About & Contact Authorities":
 
-    page_header(
-        "About & Contact Authorities",
-        "Project overview, public reporting guidance, and useful contact numbers."
-    )
+    page_header("About & Contact Authorities")
 
     st.markdown("## Project Overview")
-
-    st.write(
-        "Citizen Grievance AI is an academic prototype that demonstrates "
-        "how complaint records, machine learning, text similarity, and "
-        "visual analytics can support public grievance management."
-    )
 
     left, right = st.columns(2)
 
@@ -2174,7 +2069,7 @@ elif page == "About & Contact Authorities":
 
     with contact1:
 
-        st.markdown("### 🚨 Emergency Services")
+        st.markdown("### Emergency Services")
 
         st.markdown("**112 — Emergency Response Support System**")
 
@@ -2193,7 +2088,7 @@ elif page == "About & Contact Authorities":
 
     with contact2:
 
-        st.markdown("### 🏙️ Civic and Municipal Complaints")
+        st.markdown("### Civic and Municipal Complaints")
 
         st.write(
             "For garbage collection, blocked drains, sanitation, "
@@ -2223,16 +2118,11 @@ elif page == "About & Contact Authorities":
         "[Swachhata platform](https://dashboard.swachh.city/)"
     )
 
-    st.caption(
-        "The availability and scope of civic reporting platforms may vary "
-        "by city. Verify that the service supports your location."
-    )
-
     st.divider()
 
     st.markdown("## Which Authority Should You Contact?")
 
-    with st.expander("🗑️ Garbage Disposal and Waste"):
+    with st.expander("Garbage Disposal and Waste"):
 
         st.write(
             "Contact your municipal corporation or local waste-management "
@@ -2240,14 +2130,14 @@ elif page == "About & Contact Authorities":
             "and waste accumulation."
         )
 
-    with st.expander("🚰 Drainage and Sanitation"):
+    with st.expander("Drainage and Sanitation"):
 
         st.write(
             "Contact the municipal sanitation, sewerage, or water-board "
             "department for blocked drains, sewage overflow, and sanitation issues."
         )
 
-    with st.expander("💧 Water Pollution"):
+    with st.expander("Water Pollution"):
 
         st.write(
             "For suspected water contamination, contact the relevant water "
@@ -2255,46 +2145,17 @@ elif page == "About & Contact Authorities":
             "water that you reasonably suspect is contaminated."
         )
 
-    with st.expander("🌫️ Air Pollution"):
+    with st.expander("Air Pollution"):
 
         st.write(
             "For smoke, dust, or suspected industrial emissions, contact "
             "the relevant municipal or pollution-control authority."
         )
 
-    with st.expander("🔊 Noise Pollution"):
+    with st.expander("Noise Pollution"):
 
         st.write(
             "For excessive noise, contact the relevant local authority. "
             "Where immediate intervention is required, contact the appropriate "
             "police or emergency service."
         )
-
-    st.divider()
-
-    st.markdown("## Important Project Information")
-
-    st.info(
-        "This is a demonstration prototype. Submitting a complaint here "
-        "does not automatically forward it to a government department."
-    )
-
-    st.write(
-        "Priority and sentiment are estimates generated by predefined rules. "
-        "They are not professional assessments. Potential duplicate matches "
-        "should be reviewed by a person."
-    )
-
-    st.write(
-        "Complaint records are stored in a local SQLite database. Uploaded "
-        "images are saved in the project's uploaded_images folder. This "
-        "prototype does not include administrator authentication or a complete "
-        "privacy-management system."
-    )
-
-    st.caption(
-        "For demonstrations, use sample records and avoid entering sensitive "
-        "personal information."
-    )
-
-    footer()
